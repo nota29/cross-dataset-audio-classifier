@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────
+#  Dual-Head Audio Classifier — Configuration
+# ─────────────────────────────────────────────
+
+# Input embeddings
+# Pre-computed using ONE-PEACE (https://github.com/OFA-Sys/ONE-PEACE)
+# ONE-PEACE is a large multimodal foundation model; its audio encoder
+# produces 1536-dim embeddings used as input to both tasks.
+input_dim: 1536
+
+# Paths — BSD10K
+bsd:
+  embeddings_dir: "data/embeddings_bsd10k"
+  metadata_dev:   "data/bsd10k_metadata_dev.csv"
+  metadata_eval:  "data/bsd10k_metadata_eval.csv"
+
+# Paths — FSD50K
+fsd:
+  embeddings_dir: "data/embeddings_fsd50k"
+  metadata_dev:   "data/fsd50k_metadata_dev.csv"
+  metadata_eval:  "data/fsd50k_metadata_eval.csv"
+
+# Model architecture
+model:
+  hidden_dim: 512
+  depth: 6
+  dropout: 0.3
+
+# Training
+training:
+  num_epochs: 50
+  batch_size: 32
+  learning_rate: 1.0e-4
+  task_weights:
+    task_b: 0.15
+    task_f: 1.0
+  alpha_align: 0.0001   # weight for NTXent alignment loss
+  ntxent_temperature: 0.1
+
+# Evaluation
+evaluation:
+  threshold: 0.5        # sigmoid threshold for FSD50K multilabel predictions
+
+# Output
+output:
+  results_dir: "outputs"
+  report_bsd: "classification_report_bsd.csv"
+  report_fsd: "classification_report_fsd.csv"
