@@ -17,9 +17,9 @@ env/
 .ipynb_checkpoints/
 *.ipynb
 
-# Data — embeddings are large; store externally (e.g. DVC / cloud storage)
-data/embeddings_bsd10k/
-data/embeddings_fsd50k/
+# Data — not included in the repository; store externally
+data/*
+!data/.gitkeep
 
 # Outputs
 outputs/
