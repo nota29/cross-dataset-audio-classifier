@@ -35,7 +35,7 @@ Default weights: `w_b = 0.15`, `w_f = 1.0`, `α = 0.0001`
 
 ## Input Embeddings
 
-Audio embeddings for both datasets are pre-computed using [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE), a large multimodal foundation model. Each audio clip is represented as a **1536-dim** vector extracted from ONE-PEACE's audio encoder, stored as a `.npy` file named `{sound_id}.npy`.
+Audio embeddings for both datasets are pre-computed using [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE), a large multimodal foundation model.
 
 ---
 
@@ -69,9 +69,20 @@ cd cross-dataset-audio-classifier
 pip install -r requirements.txt
 ```
 
-Place your pre-computed embedding folders and metadata CSVs under `data/` as shown above (or update paths in `configs/config.yaml`).
+Place your pre-computed embedding folders and metadata CSVs under `data/` as shown in the Repository Structure section below (or update paths in `configs/config.yaml`).
 
 ---
+
+## Data Format
+
+**Embeddings**: one file per clip, `{sound_id}.npy`, containing a **1536-dim** vector extracted from ONE-PEACE's audio encoder. 
+
+**Metadata CSVs**: one per split, with a header row. Only the first two columns are read:
+
+| Column | Content |
+|---|---|
+| 1 | Sound ID (integer), matching the `.npy` file name |
+| 2 | Label: a single class name for BSD10K; comma-separated class names for FSD50K |
 
 ## Usage
 
