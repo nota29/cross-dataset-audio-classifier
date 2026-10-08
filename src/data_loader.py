@@ -90,6 +90,7 @@ def load_fsd50k(
     embeddings_dir: str,
     metadata_dev: str,
     metadata_eval: str,
+    batch_size: int,
 ) -> Tuple[DataLoader, DataLoader, int, MultiLabelBinarizer]:
     """
     Load FSD50K train/eval splits.
