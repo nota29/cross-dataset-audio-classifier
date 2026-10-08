@@ -69,15 +69,17 @@ cd cross-dataset-audio-classifier
 pip install -r requirements.txt
 ```
 
-Place your pre-computed embedding folders and metadata CSVs under `data/` as shown in the Repository Structure section below (or update paths in `configs/config.yaml`).
-
 ---
 
 ## Data Format
 
+Embeddings and metadata CSVs are not included in this repository. File and folder paths are set in `configs/config.yaml`.
+
 **Embeddings**: one file per clip, `{sound_id}.npy`, containing a **1536-dim** vector extracted from ONE-PEACE's audio encoder. 
 
 **Metadata CSVs**: one per split, with a header row. Only the first two columns are read: Sound ID, label (comma-separated class names for FSD50K). 
+
+---
 
 ## Usage
 
@@ -115,30 +117,4 @@ All settings live in `configs/config.yaml`. Key options:
 | `model` | `hidden_dim` | 512 | Hidden layer width |
 | `model` | `depth` | 6 | Number of residual blocks |
 
----
-
-## Repository Structure
-
-```
-cross-dataset-audio-classifier/
-├── main.py                  # entry point: train + evaluate
-├── configs/
-│   └── config.yaml          # all hyperparameters and data paths
-├── src/
-│   ├── data_loader.py       # embedding and label loading for BSD10K and FSD50K
-│   ├── model.py             # ResidualBlock + DualHeadClassifier
-│   ├── losses.py            # task losses + NTXent alignment
-│   ├── train.py             # training loop
-│   └── evaluate.py          # evaluation + CSV report
-├── data/
-│   ├── bsd10k_metadata_dev.csv
-│   ├── bsd10k_metadata_eval.csv
-│   ├── fsd50k_metadata_dev.csv
-│   ├── fsd50k_metadata_eval.csv
-│   ├── embeddings_bsd10k/   # pre-computed .npy embeddings (not tracked by git)
-│   └── embeddings_fsd50k/   # pre-computed .npy embeddings (not tracked by git)
-├── outputs/                 # evaluation CSVs written here
-├── requirements.txt
-└── .gitignore
-```
 
