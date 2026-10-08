@@ -21,7 +21,7 @@ def _load_embeddings(embedding_dir: str, sound_ids: list) -> np.ndarray:
         np.load(os.path.join(embedding_dir, f"{sid}.npy"))
         for sid in sound_ids
     ]
-    return np.stack(arrays).squeeze(1)  # (N, D)
+    return np.stack([a.reshape(-1) for a in arrays]) # (N, D)
 
 
 def _read_csv(path: str, id_col: int = 0, label_col: int = 1):
