@@ -48,7 +48,7 @@ Audio embeddings for both datasets are pre-computed using [ONE-PEACE](https://gi
 
 ---
 
-## Evaluation Metrics
+## Results
 
 For each dataset the evaluation script reports per-class precision, recall, and F1, plus:
 - **Micro-F1** — aggregated over all samples
@@ -77,12 +77,7 @@ Place your pre-computed embedding folders and metadata CSVs under `data/` as sho
 
 **Embeddings**: one file per clip, `{sound_id}.npy`, containing a **1536-dim** vector extracted from ONE-PEACE's audio encoder. 
 
-**Metadata CSVs**: one per split, with a header row. Only the first two columns are read:
-
-| Column | Content |
-|---|---|
-| 1 | Sound ID (integer), matching the `.npy` file name |
-| 2 | Label: a single class name for BSD10K; comma-separated class names for FSD50K |
+**Metadata CSVs**: one per split, with a header row. Only the first two columns are read: Sound ID, label (comma-separated class names for FSD50K). 
 
 ## Usage
 
