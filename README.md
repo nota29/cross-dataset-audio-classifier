@@ -1,6 +1,6 @@
 # Cross-Dataset Audio Classifier
 
-A multi-task audio classifier with a **shared residual body** and two task-specific heads, trained simultaneously on **BSD10K** (single-label) and **FSD50K** (multi-label). 
+A multi-task classifier for everyday sounds with a **shared residual body** and two task-specific heads, trained simultaneously on the heterogeneous datasets **BSD10K** (single-label) and **FSD50K** (multi-label). 
 
 ---
 
@@ -33,32 +33,33 @@ Default weights: `w_b = 0.15`, `w_f = 1.0`, `α = 0.0001`
 
 ---
 
-## Repository Structure
+## Input Embeddings
 
-```
-cross-dataset-audio-classifier/
-├── main.py                  # entry point: train + evaluate
-├── configs/
-│   └── config.yaml          # all hyperparameters and data paths
-├── src/
-│   ├── data_loader.py       # embedding and label loading for BSD10K and FSD50K
-│   ├── model.py             # ResidualBlock + DualHeadClassifier
-│   ├── losses.py            # task losses + NTXent alignment
-│   ├── train.py             # training loop
-│   └── evaluate.py          # evaluation + CSV report
-├── data/
-│   ├── bsd10k_metadata_dev.csv
-│   ├── bsd10k_metadata_eval.csv
-│   ├── fsd50k_metadata_dev.csv
-│   ├── fsd50k_metadata_eval.csv
-│   ├── embeddings_bsd10k/   # pre-computed .npy embeddings (not tracked by git)
-│   └── embeddings_fsd50k/   # pre-computed .npy embeddings (not tracked by git)
-├── outputs/                 # evaluation CSVs written here
-├── requirements.txt
-└── .gitignore
-```
+Audio embeddings for both datasets are pre-computed using [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE), a large multimodal foundation model. Each audio clip is represented as a **1536-dim** vector extracted from ONE-PEACE's audio encoder, stored as a `.npy` file named `{sound_id}.npy`.
 
 ---
+
+## Datasets
+
+| Dataset | Task | Labels | Loss |
+|---|---|---|---|
+| [BSD10K](https://zenodo.org/records/17250001) | Single-label classification | ~23 sound event classes | CrossEntropy |
+| [FSD50K](https://zenodo.org/record/4060432) | Multi-label classification | ~200 AudioSet classes | BCEWithLogits |
+
+---
+
+## Evaluation Metrics
+
+For each dataset the evaluation script reports per-class precision, recall, and F1, plus:
+- **Micro-F1** — aggregated over all samples
+- **Macro-F1** — average over all classes
+- **Macro-mAP** — mean Average Precision across classes
+
+Macro-mAP is the primary metric: with the default configuration, joint training reaches **0.7247** on BSD10K and **0.6549** on FSD50K.
+
+
+---
+
 
 ## Setup
 
@@ -110,27 +111,28 @@ All settings live in `configs/config.yaml`. Key options:
 
 ---
 
-## Input Embeddings
+## Repository Structure
 
-Audio embeddings for both datasets are pre-computed using [ONE-PEACE](https://github.com/OFA-Sys/ONE-PEACE), a large multimodal foundation model. Each audio clip is represented as a **1536-dim** vector extracted from ONE-PEACE's audio encoder, stored as a `.npy` file named `{sound_id}.npy`.
+```
+cross-dataset-audio-classifier/
+├── main.py                  # entry point: train + evaluate
+├── configs/
+│   └── config.yaml          # all hyperparameters and data paths
+├── src/
+│   ├── data_loader.py       # embedding and label loading for BSD10K and FSD50K
+│   ├── model.py             # ResidualBlock + DualHeadClassifier
+│   ├── losses.py            # task losses + NTXent alignment
+│   ├── train.py             # training loop
+│   └── evaluate.py          # evaluation + CSV report
+├── data/
+│   ├── bsd10k_metadata_dev.csv
+│   ├── bsd10k_metadata_eval.csv
+│   ├── fsd50k_metadata_dev.csv
+│   ├── fsd50k_metadata_eval.csv
+│   ├── embeddings_bsd10k/   # pre-computed .npy embeddings (not tracked by git)
+│   └── embeddings_fsd50k/   # pre-computed .npy embeddings (not tracked by git)
+├── outputs/                 # evaluation CSVs written here
+├── requirements.txt
+└── .gitignore
+```
 
----
-
-## Datasets
-
-| Dataset | Task | Labels | Loss |
-|---|---|---|---|
-| [BSD10K](https://zenodo.org/records/17250001) | Single-label classification | ~23 sound event classes | CrossEntropy |
-| [FSD50K](https://zenodo.org/record/4060432) | Multi-label classification | ~200 AudioSet classes | BCEWithLogits |
-
-
----
-
-## Evaluation Metrics
-
-For each dataset the evaluation script reports per-class precision, recall, and F1, plus:
-- **Micro-F1** — aggregated over all samples
-- **Macro-F1** — average over all classes
-- **Macro-mAP** — mean Average Precision across classes
-
-Macro-mAP is the primary metric: with the default configuration, joint training reaches **0.7247** on BSD10K and **0.6549** on FSD50K.
