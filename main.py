@@ -61,6 +61,7 @@ def main():
         embeddings_dir=cfg["bsd"]["embeddings_dir"],
         metadata_dev=cfg["bsd"]["metadata_dev"],
         metadata_eval=cfg["bsd"]["metadata_eval"],
+        batch_size=cfg["training"]["batch_size"],
     )
     print(f"   BSD10K classes: {num_classes_b}")
 
@@ -68,7 +69,8 @@ def main():
     train_loader_f, eval_loader_f, num_classes_f, _ = load_fsd50k(
         embeddings_dir=cfg["fsd"]["embeddings_dir"],
         metadata_dev=cfg["fsd"]["metadata_dev"],
-        metadata_eval=cfg["fsd"]["metadata_eval"]
+        metadata_eval=cfg["fsd"]["metadata_eval"],
+        batch_size=cfg["training"]["batch_size"],
     )
     print(f"   FSD50K classes: {num_classes_f}")
 
