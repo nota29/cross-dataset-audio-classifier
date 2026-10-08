@@ -16,8 +16,8 @@ from sklearn.metrics import (
     average_precision_score,
     classification_report,
     f1_score,
-    label_binarize,
 )
+from sklearn.preprocessing import label_binarize
 
 
 @torch.no_grad()
