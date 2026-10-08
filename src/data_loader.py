@@ -42,6 +42,7 @@ def load_bsd10k(
     embeddings_dir: str,
     metadata_dev: str,
     metadata_eval: str,
+    batch_size: int,
 ) -> Tuple[DataLoader, DataLoader, int, LabelEncoder]:
     """
     Load BSD10K train/eval splits.
@@ -73,11 +74,11 @@ def load_bsd10k(
 
     train_loader = DataLoader(
         TensorDataset(X_dev, y_dev, ids_dev_t),
-        batch_size=32, shuffle=True, drop_last=True,
+        batch_size=batch_size, shuffle=True, drop_last=True,
     )
     eval_loader = DataLoader(
         TensorDataset(X_eval, y_eval, ids_eval_t),
-        batch_size=32, shuffle=False,
+        batch_size=batch_size, shuffle=False,
     )
 
     return train_loader, eval_loader, num_classes, le
@@ -121,11 +122,11 @@ def load_fsd50k(
 
     train_loader = DataLoader(
         TensorDataset(X_dev, y_dev, ids_dev_t),
-        batch_size=32, shuffle=True, drop_last=True,
+        batch_size=batch_size, shuffle=True, drop_last=True,
     )
     eval_loader = DataLoader(
         TensorDataset(X_eval, y_eval, ids_eval_t),
-        batch_size=32, shuffle=False,
+        batch_size=batch_size, shuffle=False,
     )
 
     return train_loader, eval_loader, num_classes, mlb
