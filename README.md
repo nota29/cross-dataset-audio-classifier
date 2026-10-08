@@ -55,7 +55,7 @@ For each dataset the evaluation script reports per-class precision, recall, and 
 - **Macro-F1** — average over all classes
 - **Macro-mAP** — mean Average Precision across classes
 
-Macro-mAP is the primary metric: with the default configuration, joint training reaches **0.7247** on BSD10K and **0.6549** on FSD50K.
+Macro-mAP is the primary metric: with the default configuration, joint training reached **0.7247** on BSD10K and **0.6549** on FSD50K.
 
 
 ---
